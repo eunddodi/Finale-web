@@ -9,10 +9,15 @@ function Header() {
     setIsOpen(!isOpen);
   };
 
-  const closeDropdown = (e) => {
-    if (e.target.closest('#dropdown') || e.target.closest('#hamburger')) return;
+  const closeDropdown = (e: MouseEvent) => {
+    if (
+      (e.target as HTMLElement).closest('#dropdown') ||
+      (e.target as HTMLElement).closest('#hamburger')
+    )
+      return;
     setIsOpen(false);
   };
+
 
   useEffect(() => {
     if (isOpen) {
