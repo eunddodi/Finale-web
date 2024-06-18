@@ -1,139 +1,117 @@
 'use client'
-import { apiRequest } from "@/util";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-import { useState } from "react";
-
-function getLessons() {
-  return apiRequest('lessons')
-}
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { ILesson, ILocation } from "../api/types";
+import { getLocationList } from "../api";
 
 export default function Lesson() {
-  const [selectedLocationId, setSelectedLocationId] = useState(data[0].id);
-  const selectedLocation = data.find((location) => location.id === selectedLocationId);
+  const [token] = useLocalStorage('token')
+  const setRedirectTo = useLocalStorage('redirectTo')[1]
 
-  const lessonsQuery = useQuery({
-    queryKey: ['lessons'],
-    queryFn: () => apiRequest('api/lesson/list'),
-  })
+  const router = useRouter()
 
-  console.log(lessonsQuery.data)
+  const query = useQuery({ queryKey: ['locations'], queryFn: () => getLocationList() })
+
+  useEffect(() => {
+    if (!query.data) return
+    setSelectedLocationId(query.data[0].id)
+  }, [query.data])
+
+  const [selectedLocationId, setSelectedLocationId] = useState<number>()
+  const selectedLocation = useMemo(() => query.data?.find(({ id }) => id === selectedLocationId), [selectedLocationId, query.data])
+
+  const handleApply = (id: number) => {
+    if (!token) {
+      router.push('/login')
+      setRedirectTo(`/lessons/apply?lessonId=${id}`)
+      return
+    }
+    router.push(`/lessons/apply?lessonId=${id}`)
+    // 여기로 이동해서 신청 버튼 눌렀는데 401 이면 이 url 그대로 redirectTo에 저장하고 로그인 페이지로 이동
+    // 로그인 성공 후 redirectTo에 저장된 url로 이동하는 것. 동일.
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <div className="text-center my-8">
-        <h2 className="text-3xl font-bold">수강신청</h2>
-        <p className="text-gray-500">신청할 수업을 선택해주세요.</p>
-      </div>
-      <div className="text-center my-8">
-        <h3 className="text-2xl font-bold">6월</h3>
-      </div>
-      <div className="bg-gray-100 p-4 rounded-lg text-sm text-gray-700 mb-8">
-        <p>📍 6월 1일 시작입니다 📍 6/29,30 휴무(시간표 필히 확인) * 스케이트 대여 : 하남 아이스박스, 제니스 하프, 스포텍, 역삼 가능, 이외는 개인적으로 문의 바랍니다 / 수업 신청하신 남자분 중 대여하셔야하는 분은 신청 후 연락 부탁드립니다 / 외부 수강생 연습대관 횟수등록도 가능합니다(DM)</p>
-      </div>
-      <div className="flex flex-wrap justify-center mb-8">
-        {data.map((location) => (
-          <button
-            key={location.id}
-            className={`py-2 px-4 m-2 rounded ${selectedLocationId === location.id ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'
-              }`}
-            onClick={() => setSelectedLocationId(location.id)}
-          >
-            {location.name}
-          </button>
-        ))}
-      </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr className="border-b">
-              <th className="py-2 px-4 text-gray-500">시간</th>
-              <th className="py-2 px-4 text-gray-500">비용</th>
-              <th className="py-2 px-4 text-gray-500">신청</th>
-            </tr>
-          </thead>
-          <tbody>
-            {selectedLocation?.lessons.map((lesson) => (
-              <tr key={lesson.id} className="border-b">
-                <td className="py-2 px-4 text-gray-500">{lesson.time}</td>
-                <td className="py-2 px-4 text-gray-500">{lesson.cost}</td>
-                <td className="py-2 px-4 text-right">
-                  {lesson.remaining > 0 ? (
-                    <Link href={`/apply?lessonId=${lesson.id}`} className="bg-blue-500 text-white px-4 py-2 rounded">
-                      신청
-                    </Link>
-                  ) : (
-                    <button className="bg-gray-300 text-gray-500 px-4 py-2 rounded" disabled>
-                      마감
-                    </button>
-                  )}
-                  {lesson.remaining > 0 && (
-                    <span className="text-gray-500 ml-2">남은 자리 {lesson.remaining}</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <Title />
+      <Notice />
+      {query.data && selectedLocationId && selectedLocation
+        && <>
+          <LocationList data={query.data} onClickItem={(id) => setSelectedLocationId(id)} selectedItemId={selectedLocationId} />
+          <LessonList data={selectedLocation.lessons} onApplyLesson={handleApply} />
+        </>}
     </div >
   );
 }
 
+const Title = () => (
+  <div className="text-center my-8">
+    <h2 className="text-3xl font-bold">수강신청</h2>
+    <p className="text-gray-500">신청할 수업을 선택해주세요.</p>
+  </div>
+)
 
+const Notice = () => (
+  <>
+    <div className="text-center my-8">
+      <h3 className="text-2xl font-bold">6월</h3>
+    </div>
+    <div className="bg-gray-100 p-4 rounded-lg text-sm text-gray-700 mb-8">
+      <p>📍 6월 1일 시작입니다 📍 6/29,30 휴무(시간표 필히 확인) * 스케이트 대여 : 하남 아이스박스, 제니스 하프, 스포텍, 역삼 가능, 이외는 개인적으로 문의 바랍니다 / 수업 신청하신 남자분 중 대여하셔야하는 분은 신청 후 연락 부탁드립니다 / 외부 수강생 연습대관 횟수등록도 가능합니다(DM)</p>
+    </div>
+  </>
+)
 
-const data: ILocation[] = [
-  {
-    id: '1',
-    name: '장한평 디엣지',
-    address: '서울특별시 성동구 용답동 227-1 지하1층',
-    lessons: [
-      {
-        id: '1',
-        time: '수 07:30-08:50',
-        cost: '18만원 / 4회',
-        remaining: 1
-      },
-      {
-        id: '2',
-        time: '금 08:00-09:20',
-        cost: '18만원 / 4회',
-        remaining: 13
-      },
-      {
-        id: '3',
-        time: '토 19:30-20:50',
-        cost: '20만원 / 4회',
-        remaining: 5
-      },
-    ]
-  },
-  {
-    id: '2',
-    name: '신사 와이키키(단체_초급)',
-    address: '부산시 해운대구',
-    lessons: [
-      {
-        id: '1',
-        time: '금 08:00-09:20',
-        cost: '10만원 / 4회',
-        remaining: 0
-      },
-    ]
-  }
-]
+const LocationList = ({ data, onClickItem, selectedItemId }: { data: ILocation[], onClickItem: (id: number) => void, selectedItemId: number }) => (
+  <div className="flex flex-wrap justify-center mb-8">
+    {data.map((location) => (
+      <button
+        key={location.id}
+        className={`py-2 px-4 m-2 rounded ${selectedItemId === location.id ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'}`}
+        onClick={() => onClickItem(location.id)}
+      >
+        {location.name}
+      </button>
+    ))}
+  </div>
+)
 
-interface ILocation {
-  id: string
-  name: string
-  address: string
-  lessons: ILesson[]
-}
+const LessonList = ({ data, onApplyLesson }: { data: ILesson[], onApplyLesson: (id: number) => void }) => (
+  <div className="overflow-x-auto">
+    <table className="min-w-full bg-white border border-gray-200">
+      <thead>
+        <tr className="border-b">
+          <th className="py-2 px-4 text-gray-500">시간</th>
+          <th className="py-2 px-4 text-gray-500">비용</th>
+          <th className="py-2 px-4 text-gray-500">신청</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map(({ id, lessonDates, cost, maxStudents, currentEnrollment }) => (
+          <tr key={id} className="border-b">
+            <td className="py-2 px-4 text-gray-500">{lessonDates[0].startTime}-{lessonDates[0].endTime}</td>
+            <td className="py-2 px-4 text-gray-500">{cost}</td>
+            <td className="py-2 px-4 text-right">
+              {currentEnrollment < maxStudents ? (
+                <button onClick={() => onApplyLesson(id)} className="bg-blue-500 text-white px-4 py-2 rounded">
+                  신청
+                </button>
+              ) : (
+                <button className="bg-gray-300 text-gray-500 px-4 py-2 rounded" disabled>
+                  마감
+                </button>
+              )}
+              {currentEnrollment < maxStudents && (
+                <span className="text-gray-500 ml-2">남은 자리 {maxStudents - currentEnrollment}</span>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)
 
-interface ILesson {
-  id: string
-  time: string
-  cost: string
-  remaining: number
-}
 
