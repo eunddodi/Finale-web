@@ -16,7 +16,7 @@ export async function apiRequest(url: string, token?: string, options?: any) {
     }
     return await response.json()
   }
-  catch (e) {
+  catch (e: any) {
     console.error(e)
     // TODO: 401, 403의 경우 rethrow하지 않고 redirect 처리
     throw new Error(e)
