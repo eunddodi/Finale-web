@@ -14,7 +14,8 @@
     "n": "^9.2.3",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",
