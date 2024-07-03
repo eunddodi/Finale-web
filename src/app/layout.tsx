@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from 'next/font/local';
 import "./globals.css";
 import Header from "./components/Header";
 import QueryClientProvider from "./components/QueryClientProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+
+const nanum_square = localFont({
+  src: [
+    { path: './fonts/NanumSquareR.ttf', weight: '400' },
+    { path: './fonts/NanumSquareB.ttf', weight: '700' },
+    { path: './fonts/NanumSquareEB.ttf', weight: '800' },
+  ]
+})
 
 export const metadata: Metadata = {
   title: 'Finale',
@@ -17,12 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={nanum_square.className}>
       <head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
       </head>
-      <body className={inter.className}>
+      <body>
         <QueryClientProvider>
           <Header />
           {children}
