@@ -2,10 +2,12 @@
 
 import { NOTICE_NOTION_LINK } from '@/constants';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -20,7 +22,6 @@ function Header() {
     setIsOpen(false);
   };
 
-
   useEffect(() => {
     if (isOpen) {
       document.addEventListener('click', closeDropdown);
@@ -32,12 +33,16 @@ function Header() {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   return (
     <header className="w-full bg-main py-4 flex justify-between items-center px-8">
-      <div className="text-white text-lg font-semibold">FINALE</div>
+      <Link href='/' className="text-white text-lg font-semibold">FINALE</Link>
       <nav className="hidden md:flex space-x-8 text-white text-xl font-bold">
-        <Link href="time-table" className="hover:underline">시간표</Link>
-        <a href="coaches" className="hover:underline">코치진</a>
+        <a href="/time-table" className="hover:underline">시간표</a>
+        <a href="/coaches" className="hover:underline">코치진</a>
         <a href={NOTICE_NOTION_LINK} className="hover:underline">수업 별 안내</a>
       </nav>
       <button className="hidden md:block bg-white text-main-dark px-4 py-2 rounded-full text-xl font-bold">수강신청</button>
@@ -47,10 +52,10 @@ function Header() {
         </button>
         {isOpen && (
           <div id="dropdown" className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-            <Link href="time-table" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">시간표</Link>
-            <a href="coaches" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">코치진</a>
+            <a href="/time-table" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">시간표</a>
+            <a href="/coaches" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">코치진</a>
             <a href={NOTICE_NOTION_LINK} className="block px-4 py-2 text-gray-800 hover:bg-gray-100">수업 별 안내</a>
-            <a href="lessons" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">수강신청</a>
+            <a href="/lessons" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">수강신청</a>
           </div>
         )}
       </div>
