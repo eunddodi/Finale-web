@@ -4,12 +4,11 @@ import "./globals.css";
 import Header from "./components/Header";
 import QueryClientProvider from "./components/QueryClientProvider";
 
-
-const nanum_square = localFont({
+const pretendard = localFont({
   src: [
-    { path: './fonts/NanumSquareR.ttf', weight: '400' },
-    { path: './fonts/NanumSquareB.ttf', weight: '700' },
-    { path: './fonts/NanumSquareEB.ttf', weight: '800' },
+    { path: './fonts/Pretendard-Regular.woff', weight: '400' },
+    { path: './fonts/Pretendard-Bold.woff', weight: '700' },
+    { path: './fonts/Pretendard-ExtraBold.woff', weight: '800' },
   ]
 })
 
@@ -24,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={nanum_square.className}>
+    <html lang="en" className={pretendard.className}>
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
       </head>
