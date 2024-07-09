@@ -4,8 +4,12 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { getLocationList, getLessonsOfLocation } from '../api';
 import { ILesson, ILocation } from '../api/types';
 import { ErrorBoundary } from 'react-error-boundary';
-import { formatDayOfWeek } from '@/util';
+import { formatDayOfWeek, redirectToLogin } from '@/util';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import useLocalStorage, { LOCAL_STORAGE_KEYS } from '@/hooks/useLocalStorage';
+import { useRouter } from 'next/navigation';
+import ErrorFallback from '../components/ErrorFallback';
+import Loader from '../components/Loader';
 
 const EnrollmentPage: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<ILocation | null>(null);
@@ -15,8 +19,8 @@ const EnrollmentPage: React.FC = () => {
       <h1 className="text-2xl sm:text-3xl font-extrabold mt-8 mb-2 sm:mb-6">{new Date().getMonth() + 1}월 수강신청</h1>
       <p className="mb-4 text-sm sm:text-base">신청할 수업을 선택해주세요.</p>
       <MonthSelector />
-      <ErrorBoundary fallback={<div className="text-red-500">위치 목록을 불러오는 중 오류가 발생했습니다.</div>}>
-        <Suspense fallback={<div className="text-gray-500">위치 목록을 불러오는 중...</div>}>
+      <ErrorBoundary fallback={<ErrorFallback />}>
+        <Suspense fallback={<Loader />}>
           <LocationSelector
             currentLocation={currentLocation}
             onSelect={setCurrentLocation}
@@ -29,8 +33,8 @@ const EnrollmentPage: React.FC = () => {
           <p>{currentLocation.city} {currentLocation.district} {currentLocation.address}</p>
         </div>
       )}
-      <ErrorBoundary fallback={<div className="text-red-500">수업 정보를 불러오는 중 오류가 발생했습니다.</div>}>
-        <Suspense fallback={<div className="text-gray-500">수업 정보를 불러오는 중...</div>}>
+      <ErrorBoundary fallback={<ErrorFallback />}>
+        <Suspense fallback={<Loader />}>
           {currentLocation && <LessonTableContainer locationName={currentLocation.name} />}
         </Suspense>
       </ErrorBoundary>
@@ -110,10 +114,15 @@ const LessonTableContainer: React.FC<{ locationName: string }> = ({ locationName
     queryKey: ['lessons', locationName],
     queryFn: () => getLessonsOfLocation(locationName),
   });
+  const [token] = useLocalStorage(LOCAL_STORAGE_KEYS.TOKEN)
+  const router = useRouter()
 
   const handleApply = (lessonId: number) => {
-    console.log(`Applying for lesson ${lessonId}`);
-    // Implement your apply logic here
+    if (!token) {
+      redirectToLogin()
+      return
+    }
+    router.push(`/lessons/apply?lessonId=${lessonId}`)
   };
 
   return <LessonTable lessons={locationData.lessons} onApply={handleApply} />;
