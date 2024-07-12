@@ -33,7 +33,7 @@ const ReviewCarousel: React.FC<ReviewCarouselProps> = ({ reviews, itemsPerPage =
   const totalPages = Math.ceil(reviews.length / itemsPerPage);
 
   return (
-    <div className="w-full max-w-sm mx-auto">
+    <div className="w-full px-4">
       <Carousel
         setApi={setApi}
         opts={{
