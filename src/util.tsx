@@ -12,5 +12,5 @@ export function formatDayOfWeek(dayOfWeek: number): string {
 
 export function redirectToLogin() {
   window.location.href = '/login';
-  localStorage.setItem(LOCAL_STORAGE_KEYS.REDIRECT_TO, window.location.pathname);
+  localStorage.setItem(LOCAL_STORAGE_KEYS.REDIRECT_TO, JSON.stringify(window.location.pathname));
 }
