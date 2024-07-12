@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { QnA } from "./components/QnA";
 import Review from "./components/Review";
+import Coaches from "./components/Coaches";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -56,9 +58,9 @@ export default function Home() {
           </section>
           <section className="text-center bg-gray-light py-16 w-full">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">실력 있는 코치진과 함께합니다</h2>
-            <p className="text-gray-500 mb-4 text-base">서울대 체교과 출신 대표와 선수 출신 코치진들의<br />수준 높은 코칭 스킬을 만나보세요!</p>
-            {/* <CoachList /> */}
-            <button className="bg-sub-orange text-white px-6 py-2 rounded-full text-lg font-semibold">코치진 자세히보기</button>
+            <p className="text-gray-500 mb-8 text-base">서울대 체교과 출신 대표와 선수 출신 코치진들의<br />수준 높은 코칭 스킬을 만나보세요!</p>
+            <Coaches />
+            <Link href='/coaches' className="bg-sub-orange text-white px-6 py-2 rounded-full text-lg font-semibold">코치진 자세히보기</Link>
           </section>
           <section className="text-center bg-main-light py-16 w-full">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">수강생들이 말하는 피날레</h2>
