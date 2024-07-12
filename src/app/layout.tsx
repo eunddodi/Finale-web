@@ -7,6 +7,7 @@ import QueryClientProvider from "./components/QueryClientProvider";
 const pretendard = localFont({
   src: [
     { path: './fonts/Pretendard-Regular.woff', weight: '400' },
+    { path: './fonts/Pretendard-SemiBold.woff', weight: '600' },
     { path: './fonts/Pretendard-Bold.woff', weight: '700' },
     { path: './fonts/Pretendard-ExtraBold.woff', weight: '800' },
   ]
