@@ -15,8 +15,8 @@ const EnrollmentPage: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<ILocation | null>(null);
 
   return (
-    <div className="container mx-auto px-4 py-4 sm:py-8 max-w-3xl">
-      <h1 className="text-2xl sm:text-3xl font-extrabold mt-8 mb-2 sm:mb-6">{new Date().getMonth() + 1}월 수강신청</h1>
+    <div className="container mx-auto px-4 py-4 sm:py-8 max-w-3xl text-center">
+      <h1 className="text-xl text-gray-700 sm:text-3xl font-bold mt-8 mb-2 sm:mb-6">{new Date().getMonth() + 1}월 수강신청</h1>
       <p className="mb-4 text-sm sm:text-base">신청할 수업을 선택해주세요.</p>
       <MonthSelector />
       <ErrorBoundary fallback={<ErrorFallback />}>
@@ -103,8 +103,12 @@ const LocationSelector: React.FC<{
 
 const MonthSelector: React.FC = () => (
   <div className="mb-4">
-    <p className="text-xs sm:text-sm text-gray-600">
-      7월 4일 시작입니다 7월 1,2,3일 휴무(시간표 필히 확인) * 스케이트 대여 : 하남 아이스박스, 제니스 하프, 스포텍, 역삼 가능, 이외는 개인적으로 준비 바랍니다 /수업 신청하신 날짜륻 중 대여하시어야는 분은 신청 후 연락 부탁드립니다 /외부 수강생 연습대관 찾습등록 가능합니다(DM)
+    <p className="text-xs sm:text-sm text-gray-600 bg-gray-light p-default">
+      📍7월 4일 시작입니다📍 7월 1,2,3일 휴무(시간표 필히 확인)
+      <p className="text-left mt-2">
+        - 스케이트 대여 : 하남 아이스박스, 제니스 하프, 스포텍, 역삼 가능, 이외는 개인적으로 준비 바랍니다. 남성분 중 대여 필요하신 분은 신청 후 연락 부탁드립니다.<br />
+        - 외부 수강생 연습대관 횟수 등록 가능합니다. (DM)
+      </p>
     </p>
   </div>
 );
