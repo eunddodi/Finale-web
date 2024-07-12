@@ -29,7 +29,7 @@ export default function LessonInformation() {
     if (!lessonId || !token) return
     mutation.mutate({ lessonId, token }, {
       onSuccess: () => {
-        router.push('lessons/apply/confirmed')
+        router.replace('/lessons/apply/confirmed')
       },
       onError: (error) => {
         if (error instanceof BadRequestError) {
@@ -42,7 +42,7 @@ export default function LessonInformation() {
 
   return (
     <>
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+      <div className="bg-white border-gray-light border-2 p-6 rounded-lg mb-8 text-sm">
         <div className="grid grid-cols-2 gap-4">
           <div className="font-bold">이름</div>
           <div>{username}</div>
@@ -54,10 +54,10 @@ export default function LessonInformation() {
           <div>{data.cost}</div>
         </div>
       </div>
-      <p className="text-red-500 text-center mb-4">❗ 신청 후에는 취소가 불가능하니 신중하게 신청해주세요 ❗</p>
+      <p className="text-red-500 text-center text-sm font-semibold mb-2">❗ 신청 후에는 취소가 불가능하니 신중하게 신청해주세요 ❗</p>
       <button
         onClick={apply}
-        className="w-full bg-teal-500 text-white font-bold py-2 px-4 rounded-full hover:bg-teal-600 transition duration-300"
+        className="w-full bg-main text-white font-semibold py-3 px-4 rounded-lg hover:bg-main-dark transition duration-300 mb-4"
       >
         신청하기
       </button>
