@@ -4,7 +4,7 @@ export interface ILesson {
   cost: string;
   day: number;
   maxStudents: number;
-  currentEnrollent: number;
+  currentEnrollment: number;
   studentsPerCoach: number;
   lessonDates: LessonDate[];
 }

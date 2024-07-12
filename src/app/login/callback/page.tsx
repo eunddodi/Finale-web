@@ -1,6 +1,6 @@
 'use client'
 import useLocalStorage, { LOCAL_STORAGE_KEYS } from '@/hooks/useLocalStorage'
-import { apiRequest } from '@/util'
+import { apiRequest } from '@/lib/api'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
