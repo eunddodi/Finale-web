@@ -1,8 +1,9 @@
 'use client'
+import Loader from '@/app/components/Loader'
 import useLocalStorage, { LOCAL_STORAGE_KEYS } from '@/hooks/useLocalStorage'
 import { apiRequest } from '@/lib/api'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useRef } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
 
 type AuthResponse = {
   userInfo: {
@@ -18,6 +19,15 @@ async function sendAuthInformation(code: string, state: 'student' | 'coach'): Pr
 }
 
 export default function LoginCallbackPage() {
+  return (
+    <Suspense>
+      <Login />
+    </Suspense>
+  )
+}
+
+
+function Login() {
   const params = useSearchParams()
 
   const setToken = useLocalStorage(LOCAL_STORAGE_KEYS.TOKEN)[1]
@@ -57,4 +67,6 @@ export default function LoginCallbackPage() {
     authorizeAndRedirect()
 
   }, [params])
+
+  return <Loader />
 }
