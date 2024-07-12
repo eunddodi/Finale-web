@@ -26,7 +26,7 @@ const config = {
         'main-dark': '#297660',
         'sub-orange': '#ff7559',
         'sub-pink': '#e9537c',
-
+        'gray-light': '#f5f5f5',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

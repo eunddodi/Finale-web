@@ -15,8 +15,8 @@ export default function ApplyPage() {
   return (
     <div className="max-w-md mx-auto p-4">
       <header className="text-center my-8">
-        <h2 className="text-2xl font-bold mt-8">신청하기</h2>
-        <p className="text-gray-500">신청 내역을 확인해주세요.</p>
+        <h2 className="text-xl font-bold mt-8 mb-2">신청하기</h2>
+        <p className="text-gray-500 text-sm">신청 내역을 확인해주세요.</p>
       </header>
       <ErrorBoundary fallback={<ErrorFallback />}>
         <Suspense fallback={<Loader />}>

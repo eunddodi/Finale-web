@@ -15,9 +15,9 @@ const EnrollmentPage: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<ILocation | null>(null);
 
   return (
-    <div className="container mx-auto px-4 py-4 sm:py-8 max-w-3xl text-center">
-      <h1 className="text-xl text-gray-700 sm:text-3xl font-bold mt-8 mb-2 sm:mb-6">{new Date().getMonth() + 1}월 수강신청</h1>
-      <p className="mb-4 text-sm sm:text-base">신청할 수업을 선택해주세요.</p>
+    <div className="container mx-auto px-4 pt-4 pb-32 sm:py-8 max-w-3xl text-center">
+      <h1 className="text-xl text-gray-800 sm:text-3xl font-bold mt-8 mb-2 sm:mb-6">{new Date().getMonth() + 1}월 수강신청</h1>
+      <p className="mb-4 text-sm sm:text-base text-gray-500">신청할 수업을 선택해주세요.</p>
       <MonthSelector />
       <ErrorBoundary fallback={<ErrorFallback />}>
         <Suspense fallback={<Loader />}>
@@ -28,8 +28,8 @@ const EnrollmentPage: React.FC = () => {
         </Suspense>
       </ErrorBoundary>
       {currentLocation && (
-        <div className="mb-4 text-sm sm:text-base">
-          <h2 className="text-lg sm:text-xl font-bold">{currentLocation.name}</h2>
+        <div className="mb-4 text-sm sm:text-base text-left">
+          <h2 className="text-lg text-gray-700 sm:text-xl font-bold">{currentLocation.name}</h2>
           <p>{currentLocation.city} {currentLocation.district} {currentLocation.address}</p>
         </div>
       )}
@@ -103,13 +103,13 @@ const LocationSelector: React.FC<{
 
 const MonthSelector: React.FC = () => (
   <div className="mb-4">
-    <p className="text-xs sm:text-sm text-gray-600 bg-gray-light p-default">
-      📍7월 4일 시작입니다📍 7월 1,2,3일 휴무(시간표 필히 확인)
+    <div className="text-xs sm:text-sm text-gray-600 bg-gray-light p-4">
+      <p>📍7월 4일 시작입니다📍 7월 1,2,3일 휴무(시간표 필히 확인)</p>
       <p className="text-left mt-2">
         - 스케이트 대여 : 하남 아이스박스, 제니스 하프, 스포텍, 역삼 가능, 이외는 개인적으로 준비 바랍니다. 남성분 중 대여 필요하신 분은 신청 후 연락 부탁드립니다.<br />
         - 외부 수강생 연습대관 횟수 등록 가능합니다. (DM)
       </p>
-    </p>
+    </div>
   </div>
 );
 
@@ -139,7 +139,7 @@ const LessonTable: React.FC<{
   <div className="overflow-x-auto">
     <table className="w-full border-collapse text-sm sm:text-base">
       <thead>
-        <tr className="bg-gray-200">
+        <tr className="bg-gray-light text-gray-700">
           <th className="border p-2">요일 및 시간</th>
           <th className="border p-2">비용</th>
           <th className="border p-2">정원</th>
@@ -150,7 +150,7 @@ const LessonTable: React.FC<{
         {lessons.map((lesson) => (
           <tr key={lesson.id}>
             <td className="border p-2">
-              <div className="text-xs sm:text-sm">
+              <div>
                 {formatDayOfWeek(lesson.day)} {lesson.lessonDates[0].startTime} - {lesson.lessonDates[0].endTime}
               </div>
             </td>
@@ -159,7 +159,7 @@ const LessonTable: React.FC<{
             <td className="border p-2">
               <button
                 onClick={() => onApply(lesson.id)}
-                className="bg-blue-500 text-white px-2 py-1 rounded text-xs sm:text-sm"
+                className="bg-blue-50 text-blue-500 font-semibold px-2 py-1 rounded "
               >
                 신청
               </button>
