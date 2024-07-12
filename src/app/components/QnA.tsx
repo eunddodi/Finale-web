@@ -19,7 +19,7 @@ export function QnA() {
   ]
 
   return (
-    <Accordion type="single" collapsible className='w-128'>
+    <Accordion type="single" collapsible className='w-full px-8 text-left'>
       {data.map((item, index) => (
         <AccordionItem key={index} value={`item-${index}`}>
           <AccordionTrigger>{item.q}</AccordionTrigger>

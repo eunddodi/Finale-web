@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { QnA } from "./components/QnA";
+import Review from "./components/Review";
 
 export default function Home() {
 
@@ -52,12 +54,31 @@ export default function Home() {
             <Image src="/landing/map.jpg" width={280} height={280} alt="Map showing various locations" className="mx-auto mb-8" />
             <button className="bg-sub-orange text-white px-6 py-2 rounded-full text-lg font-semibold">시간표 자세히보기</button>
           </section>
-          <section className="text-center mb-32 bg-gray-light py-16 w-full">
+          <section className="text-center bg-gray-light py-16 w-full">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">실력 있는 코치진과 함께합니다</h2>
             <p className="text-gray-500 mb-4 text-base">서울대 체교과 출신 대표와 선수 출신 코치진들의<br />수준 높은 코칭 스킬을 만나보세요!</p>
             {/* <CoachList /> */}
             <button className="bg-sub-orange text-white px-6 py-2 rounded-full text-lg font-semibold">코치진 자세히보기</button>
           </section>
+          <section className="text-center bg-main-light py-16 w-full">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">수강생들이 말하는 피날레</h2>
+            <p className="text-gray-500 mb-8 text-base">피날레와 함께하는 수강생들의<br />생생한 후기를 들어보세요.</p>
+            <Review />
+          </section>
+          <section className="text-center py-16 w-full">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-8">자주 묻는 질문</h2>
+            <QnA />
+            <div className="mt-8">
+              <p>더 궁금한 점이 있으신가요?</p>
+              <button className="bg-gray-800 text-white mt-4 px-6 py-2 rounded-full text-lg font-semibold">직접 문의하기</button>
+            </div>
+          </section>
+          <section className="text-center mb-32 w-full py-16 bg-gray-light">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">망설이지 말고<br />피날레와 함께하세요!</h2>
+            <p className="text-gray-500 mb-4 text-base">수강신청은 매달 25일부터 진행됩니다.</p>
+            <button className="bg-sub-orange text-white px-6 py-2 rounded-full text-lg font-semibold">수강신청 하러가기</button>
+          </section>
+          {/* <Footer/> */}
         </main>
       </div>
     </div>
