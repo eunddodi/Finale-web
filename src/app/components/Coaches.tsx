@@ -13,7 +13,7 @@ export const coachData: ICoach[] = [
     id: '1',
     name: '우송원',
     position: '헤드 코치',
-    imageUrl: '/coaches/default.svg',
+    imageUrl: '/coaches/우송원.jpg',
     history: [
       '연세대학교 스포츠 응용산업학과 졸업',
       '서울대학교 대학원 체육교육과 졸업',
@@ -24,7 +24,7 @@ export const coachData: ICoach[] = [
     ],
   },
   {
-    id: '2', name: '김채영', position: '서브 코치', imageUrl: '/coaches/default.svg',
+    id: '2', name: '김채영', position: '서브 코치', imageUrl: '/coaches/김채영.jpg',
     history: [
       '고려대학교 국제스포츠학부 스포츠과학과 졸업',
       '전문 스포츠 지도사 자격증 발생 2급',
@@ -35,7 +35,7 @@ export const coachData: ICoach[] = [
     ],
   },
   {
-    id: '3', name: '채규진', position: '서브 코치', imageUrl: '/coaches/default.svg',
+    id: '3', name: '채규진', position: '서브 코치', imageUrl: '/coaches/채규진.jpg',
     history: [
       '피겨스케이팅 급수 5급',
       '제 98회 전국 동계체육대회 D조 여중부 3위',
@@ -45,7 +45,7 @@ export const coachData: ICoach[] = [
     ]
   },
   {
-    id: '4', name: '도지훈', position: '서브 코치', imageUrl: '/coaches/default.svg',
+    id: '4', name: '도지훈', position: '서브 코치', imageUrl: '/coaches/도지훈.jpg',
     history: [
       '전 피겨스케이팅 국가대표',
       '경희대학교 스포츠지도학과 재학 중',
@@ -56,7 +56,7 @@ export const coachData: ICoach[] = [
     ]
   },
   {
-    id: '5', name: '강민지', position: '서브 코치', imageUrl: '/coaches/default.svg',
+    id: '5', name: '강민지', position: '서브 코치', imageUrl: '/coaches/강민지.jpg',
     history: [
       '생활 스포츠 지도사 자격증 빙상 2급',
       '전문 스포츠 지도사 자격증 빙상 2급',
@@ -67,7 +67,7 @@ export const coachData: ICoach[] = [
     ]
   },
   {
-    id: '6', name: '김소연', position: '서브 코치', imageUrl: '/coaches/default.svg',
+    id: '6', name: '김소연', position: '서브 코치', imageUrl: '/coaches/김소연.jpg',
     history: [
       "생활 스포츠 지도사 자격증 빙상 2급",
       "국내 대회 다수 출전 및 입상",
@@ -78,7 +78,7 @@ export const coachData: ICoach[] = [
     ]
   },
   {
-    id: '7', name: '정진철', position: '서브 코치', imageUrl: '/coaches/default.svg',
+    id: '7', name: '정진철', position: '서브 코치', imageUrl: '/coaches/default.png',
     history: [
       '전문 스포츠 지도사 자격증 빙상 2급',
       '국내 대회 다수 출전 및 입상',
@@ -89,7 +89,7 @@ export const coachData: ICoach[] = [
     ]
   },
   {
-    id: '8', name: '차인영', position: '서브 코치', imageUrl: '/coaches/default.svg',
+    id: '8', name: '차인영', position: '서브 코치', imageUrl: '/coaches/default.png',
     history: [
       "전 피겨스케이팅 국가대표 상비군",
       "전문 스포츠 지도사 자격증 빙상 2급",
@@ -100,7 +100,7 @@ export const coachData: ICoach[] = [
     ]
   },
   {
-    id: '9', name: '김경민', position: '서브 코치', imageUrl: '/coaches/default.svg',
+    id: '9', name: '김경민', position: '서브 코치', imageUrl: '/coaches/default.png',
     history: [
       "스포츠 컨디셔닝 지도사 자격증 1급",
       "생활 스포츠 지도사 자격증 빙상 1급",
@@ -123,17 +123,17 @@ export default function Coaches() {
         }}>
         {coachData.map((coach) => (
           <div key={coach.id} className="flex-none">
-            <div className="overflow-hidden">
+            <div className="overflow-hidden" style={{ width: '180px', height: '180px' }}>
               <Image
                 src={coach.imageUrl}
                 alt={coach.name}
                 width={180}
                 height={180}
               />
-              <div className="p-4">
-                <h3 className="font-semibold text-xl text-main">{coach.name}</h3>
-                <p className="text-gray-600">{coach.position}</p>
-              </div>
+            </div>
+            <div className="p-4">
+              <h3 className="font-semibold text-xl text-main">{coach.name}</h3>
+              <p className="text-gray-600">{coach.position}</p>
             </div>
           </div>
         ))}

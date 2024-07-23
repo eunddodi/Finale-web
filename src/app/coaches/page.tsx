@@ -4,14 +4,14 @@ import { coachData, ICoach } from '../components/Coaches';
 
 const CoachCard = ({ coach }: { coach: ICoach }) => (
   <div className="bg-white mb-6">
-    <Image
-      // 없으면 default 이미지 보여주기
-      src={coach.imageUrl}
-      alt={coach.name}
-      width={180}
-      height={180}
-      className="mx-auto mb-4"
-    />
+    <div className="overflow-hidden mx-auto mb-4" style={{ width: '180px', height: '180px' }}>
+      <Image
+        src={coach.imageUrl}
+        alt={coach.name}
+        width={180}
+        height={180}
+      />
+    </div>
     <h2 className="text-sm text-center text-gray-800">{coach.position}</h2>
     <h3 className="text-xl font-semibold text-center tracking-wider text-main mb-4">{coach.name}</h3>
     <ul className="text-xs text-center space-y-2 text-gray-600">
