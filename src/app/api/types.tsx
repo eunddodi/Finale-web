@@ -22,3 +22,13 @@ export interface ILocation {
   address: string
 }
 
+
+export interface IMyLesson {
+  location: string;
+  month: string;
+  startTime: string;
+  endTime: string;
+  deposit: boolean;
+  restLesson: boolean;
+  days: number;
+}

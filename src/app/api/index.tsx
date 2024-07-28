@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
-import { ILesson, ILocation } from "./types"
+import { ILesson, ILocation, IMyLesson } from "./types"
 import { apiRequest } from "@/lib/api"
 
 export const login = async (type: 'student' | 'coach') => {
@@ -30,4 +30,9 @@ export const enrollLesson = async ({ lessonId, token }: { lessonId: string, toke
       method: 'POST',
       body: JSON.stringify({ lessonId }),
     })
+}
+
+export const getMyLessons = async (token: string): Promise<IMyLesson[]> => {
+  const { data } = await apiRequest('api/student/myPage', token)
+  return data.reverse()
 }
