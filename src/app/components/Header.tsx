@@ -45,6 +45,7 @@ function Header() {
           <a href="/time-table" className="hover:underline">시간표</a>
           <a href="/coaches" className="hover:underline">코치진</a>
           <a href={NOTICE_NOTION_LINK} className="hover:underline">수업 별 안내</a>
+          <a href="/my" className="hover:underline">마이페이지</a>
         </nav>
         <Link href='/lessons' className=" bg-white text-main-dark px-4 py-1 rounded-full text-lg font-semibold">수강신청</Link>
         <div className="md:hidden relative">
@@ -57,6 +58,7 @@ function Header() {
               <a href="/coaches" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">코치진</a>
               <a href={NOTICE_NOTION_LINK} className="block px-4 py-2 text-gray-800 hover:bg-gray-100">수업 별 안내</a>
               <a href="/lessons" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">수강신청</a>
+              <a href="/my" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">마이페이지</a>
             </div>
           )}
         </div>
