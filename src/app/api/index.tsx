@@ -3,8 +3,9 @@ import { ILesson, ILocation, IMyLesson } from "./types"
 import { apiRequest } from "@/lib/api"
 
 export const login = async (type: 'student' | 'coach') => {
-  const { data } = await apiRequest(`login/${type}`)
-  redirect(data)
+  // const { data } = await apiRequest(`login/${type}`)
+  const KAKAO_LOGIN_URL = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=3e7fdba27d8fb61d9c259d3a90ffc5a8&redirect_uri=https%3A%2F%2Ffinale-web.vercel.app%2Flogin%2Fcallback&state=student"
+  redirect(KAKAO_LOGIN_URL)
 }
 
 export const getLocationList = async (): Promise<ILocation[]> => {
