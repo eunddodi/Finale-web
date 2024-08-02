@@ -12,7 +12,7 @@ export const useAuthRedirect = () => {
     const checkAuth = () => {
       if (!token) {
         const currentPath = window.location.pathname
-        setRedirectTo(JSON.stringify(currentPath))
+        setRedirectTo(currentPath)
         router.push('/login')
         setIsAuthenticated(false)
       } else {
