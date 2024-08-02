@@ -6,17 +6,19 @@ import Header from "./Header"
 import Notice from "./Notice"
 import CurrentMonthLessons from "./CurrentMonthLessons"
 import LessonList from "./LessonList"
+import useApplyAvailablityQuery from "@/hooks/queries/useApplyAvailablityQuery"
 
 export default function MyLessons() {
-  // const token = useToken()
-  const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6NywibmFtZSI6IuydtOydgOyngCIsInJvbGUiOiJTVFVERU5UIiwiaXNzIjoiRklOQUxFIiwiaWF0IjoxNzIyMTMxMDI4LCJleHAiOjE3MjIxMzI4Mjh9.H1__SNDefRf0eNeI1FEJFokfoZq6kFXgFV_fG8OpyS4"
+  const token = useToken()
 
   const { data } = useSuspenseQuery({
     queryKey: ['lessons', 'my'],
     queryFn: () => getMyLessons(token)
   })
 
-  const currentMonth = new Date().toISOString().slice(0, 7)
+  const { data: { restLesson, enrollment } } = useApplyAvailablityQuery()
+
+  const currentMonth = new Date().toISOString().slice(0, 7) // NOTE: YYYY-MM
   const filteredLessons = data.filter(lesson => lesson.month === currentMonth)
 
   return (
@@ -24,10 +26,10 @@ export default function MyLessons() {
       <Header currentMonth={currentMonth} />
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-6">
-          <Notice currentMonth={currentMonth} />
+          <Notice currentMonth={currentMonth} restLessonAvailable={restLesson} enrollmentAvailable={enrollment} />
           <CurrentMonthLessons lessons={filteredLessons} />
         </div>
-        <LessonList lessonData={data} />
+        <LessonList lessonData={data} restLessonAvailable={restLesson} currentMonth={currentMonth} />
       </div>
     </div>
   )

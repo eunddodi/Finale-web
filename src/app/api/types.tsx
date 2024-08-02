@@ -31,4 +31,5 @@ export interface IMyLesson {
   deposit: boolean;
   restLesson: boolean;
   days: number;
+  lessonStudentId: string;
 }
