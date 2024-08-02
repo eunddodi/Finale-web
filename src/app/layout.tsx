@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import "./globals.css";
 import Header from "./components/Header";
 import QueryClientProvider from "./components/QueryClientProvider";
+import { ToastContainer, ToastContainerProps } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const pretendard = localFont({
   src: [
@@ -34,8 +36,31 @@ export default function RootLayout({
         <QueryClientProvider>
           <Header />
           {children}
+          <ToastContainer {...toastConfig} />
         </QueryClientProvider>
       </body>
     </html>
   );
+}
+
+const toastConfig: ToastContainerProps = {
+  hideProgressBar: true,
+  position: 'top-center',
+  autoClose: 3000,
+  role: 'success',
+  toastStyle: {
+    width: '320px',
+    maxWidth: '90%',
+    boxSizing: 'border-box',
+    margin: 'auto',
+    borderRadius: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    top: '12px'
+  },
+  bodyStyle: {
+    fontSize: '14px',
+    padding: 0,
+    margin: 0,
+  },
 }
