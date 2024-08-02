@@ -10,9 +10,20 @@ import useLocalStorage, { LOCAL_STORAGE_KEYS } from '@/hooks/useLocalStorage';
 import { useRouter } from 'next/navigation';
 import ErrorFallback from '../components/ErrorFallback';
 import Loader from '../components/Loader';
+import useApplyAvailablityQuery from '@/hooks/queries/useApplyAvailablityQuery';
 
 const EnrollmentPage: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<ILocation | null>(null);
+  const { data: { enrollment } } = useApplyAvailablityQuery()
+
+  if (!enrollment) {
+    return (
+      <div className="container mx-auto px-4 pt-32 pb-32 sm:py-8 max-w-3xl text-center">
+        <h1 className="text-xl text-gray-700 sm:text-3xl font-bold mt-8 mb-2 sm:mb-6">현재는 수강신청 기간이 아닙니다.</h1>
+        <p className="mb-4 text-sm sm:text-base text-gray-500">수강신청은 매월 25일 오픈됩니다.</p>
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 pt-4 pb-32 sm:py-8 max-w-3xl text-center">
@@ -162,12 +173,10 @@ const LessonTable: React.FC<{
               <td className="border p-2">{lesson.cost}</td>
               <td className="border p-2">{lesson.currentEnrollment} / {lesson.maxStudents}</td>
               <td className="border p-2">
-                <button
-                  onClick={() => onApply(lesson.id)}
-                  className="bg-blue-50 text-blue-500 font-semibold px-2 py-1 rounded "
-                >
-                  신청
-                </button>
+                {lesson.currentEnrollment >= lesson.maxStudents
+                  ? <button className="bg-gray-200 text-gray-500 font-semibold px-2 py-1 rounded cursor-not-allowed" disabled>마감</button>
+                  : <button onClick={() => onApply(lesson.id)} className="bg-blue-50 text-blue-500 font-semibold px-2 py-1 rounded">신청</button>
+                }
               </td>
             </tr>
           ))}
