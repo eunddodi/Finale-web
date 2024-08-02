@@ -42,7 +42,7 @@ export const getMyLessons = async (token: string): Promise<IMyLesson[]> => {
 }
 
 export const restLesson = async ({ lessonId, token }: { lessonId: string, token: string }) => {
-  await apiRequest(`api/student/restLesson/${lessonId}`, token)
+  await apiRequest(`api/student/restLesson/${lessonId}`, token, { method: 'POST' })
 }
 
 export const checkApplyAvailability = async (): Promise<{ enrollment: boolean, restLesson: boolean }> => {
