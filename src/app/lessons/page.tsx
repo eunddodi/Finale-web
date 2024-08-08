@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, Suspense, useEffect } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { getLocationList, getLessonsOfLocation } from '../api';
+import { getLocationList, getLessonsOfLocation, getLessonNotice } from '../api';
 import { ILesson, ILocation } from '../api/types';
 import { ErrorBoundary } from 'react-error-boundary';
 import { formatDayOfWeek, redirectToLogin } from '@/util';
@@ -112,17 +112,20 @@ const LocationSelector: React.FC<{
 };
 
 
-const MonthSelector: React.FC = () => (
-  <div className="mb-4">
-    <div className="text-xs sm:text-sm text-gray-600 bg-gray-light p-4">
-      <p>📍7월 4일 시작입니다📍 7월 1,2,3일 휴무(시간표 필히 확인)</p>
-      <p className="text-left mt-2">
-        - 스케이트 대여 : 하남 아이스박스, 제니스 하프, 스포텍, 역삼 가능, 이외는 개인적으로 준비 바랍니다. 남성분 중 대여 필요하신 분은 신청 후 연락 부탁드립니다.<br />
-        - 외부 수강생 연습대관 횟수 등록 가능합니다. (DM)
-      </p>
+const MonthSelector: React.FC = () => {
+  const { data } = useSuspenseQuery({
+    queryKey: ['lessonNotice'],
+    queryFn: () => getLessonNotice(),
+  })
+
+  return (
+    <div className="mb-4">
+      <div className="text-xs sm:text-sm text-gray-600 bg-gray-light p-4">
+        {data}
+      </div>
     </div>
-  </div>
-);
+  )
+};
 
 const LessonTableContainer: React.FC<{ locationName: string }> = ({ locationName }) => {
   const { data: locationData } = useSuspenseQuery({

@@ -49,3 +49,8 @@ export const checkApplyAvailability = async (): Promise<{ enrollment: boolean, r
   const { data } = await apiRequest('api/schedule/status')
   return data
 }
+
+export const getLessonNotice = async (): Promise<string> => {
+  const { data } = await apiRequest('api/lesson/notice')
+  return data
+}
