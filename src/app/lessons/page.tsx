@@ -129,14 +129,9 @@ const LessonTableContainer: React.FC<{ locationName: string }> = ({ locationName
     queryKey: ['lessons', locationName],
     queryFn: () => getLessonsOfLocation(locationName),
   });
-  const [token] = useLocalStorage(LOCAL_STORAGE_KEYS.TOKEN)
   const router = useRouter()
 
   const handleApply = (lessonId: number) => {
-    if (!token) {
-      redirectToLogin()
-      return
-    }
     router.push(`/lessons/apply?lessonId=${lessonId}`)
   };
 
