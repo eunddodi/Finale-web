@@ -4,12 +4,13 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { getLocationList, getLessonsOfLocation, getLessonNotice } from '../api';
 import { ILesson, ILocation } from '../api/types';
 import { ErrorBoundary } from 'react-error-boundary';
-import { formatDayOfWeek } from '@/util';
+import { formatDayOfWeek, redirectToLogin } from '@/util';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 import ErrorFallback from '../components/ErrorFallback';
 import Loader from '../components/Loader';
 import useApplyAvailablityQuery from '@/hooks/queries/useApplyAvailablityQuery';
+import useToken from '@/hooks/useToken';
 
 const EnrollmentPage: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<ILocation | null>(null);
@@ -133,7 +134,12 @@ const LessonTableContainer: React.FC<{ locationName: string }> = ({ locationName
   });
   const router = useRouter()
 
+  const token = useToken()
   const handleApply = (lessonId: number) => {
+    if (!token) {
+      redirectToLogin()
+      return
+    }
     router.push(`/lessons/apply?lessonId=${lessonId}`)
   };
 
