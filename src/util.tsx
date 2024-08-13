@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import { LOCAL_STORAGE_KEYS } from './hooks/useLocalStorage';
-import { BadgeCheck } from 'lucide-react';
 
 export function formatDayOfWeek(dayOfWeek: number): string {
   const daysOfWeek: string[] = ['일', '월', '화', '수', '목', '금', '토'];
@@ -18,11 +17,9 @@ export function redirectToLogin() {
 }
 
 export function showSuccessToast(message: string) {
-  const SuccessToast = ({ message }: { message: string }) => (
-    <div className="flex items-center">
-      <BadgeCheck className="text-blue-500 mr-2" />
-      <span>{message}</span>
-    </div>
-  )
-  toast(<SuccessToast message={message} />)
+  toast(message, { type: 'success', style: { background: '#e9f3e8', padding: '12px' } })
+}
+
+export function showErrorToast(message: string) {
+  toast(message, { type: 'error', style: { background: '#f8e9e9', padding: '12px' } })
 }
