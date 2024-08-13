@@ -1,5 +1,6 @@
 import { restLesson } from "@/app/api";
-import { showSuccessToast } from "@/util";
+import { BadRequestError } from "@/types/errors";
+import { showErrorToast, showSuccessToast } from "@/util";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function useRestLessonMutation() {
@@ -10,6 +11,11 @@ export default function useRestLessonMutation() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['lessons'] })
       showSuccessToast("휴식 신청이 완료되었습니다.")
+    },
+    onError: (error) => {
+      if (error instanceof BadRequestError) {
+        showErrorToast(error.message)
+      }
     }
   })
 }
