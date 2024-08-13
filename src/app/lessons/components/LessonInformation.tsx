@@ -7,6 +7,7 @@ import { getLessonDetail } from "@/app/api";
 import useEnrollLessonMutation from "@/hooks/mutations/useEnrollLessonMutation";
 import useToken from "@/hooks/useToken";
 import { BadRequestError } from "@/types/errors";
+import { redirectToLogin, showErrorToast } from "@/util";
 
 export default function LessonInformation() {
   const router = useRouter()
@@ -24,16 +25,17 @@ export default function LessonInformation() {
 
   const mutation = useEnrollLessonMutation()
 
-
   const apply = () => {
-    if (!lessonId || !token) return
+    if (!lessonId) return
+    if (!token) redirectToLogin()
+
     mutation.mutate({ lessonId, token }, {
       onSuccess: () => {
         router.replace('/lessons/apply/confirmed')
       },
       onError: (error) => {
         if (error instanceof BadRequestError) {
-          alert(error.message)
+          showErrorToast(error.message)
           router.back()
         }
       }
@@ -44,10 +46,15 @@ export default function LessonInformation() {
     <>
       <div className="bg-white border-gray-light border-2 p-6 rounded-lg mb-8 text-sm">
         <div className="grid grid-cols-2 gap-4">
-          <div className="font-bold">이름</div>
-          <div>{username}</div>
-          <div className="font-bold">전화번호</div>
-          <div>{phoneNumber}</div>
+          {/* NOTE: 로그인 이후 로컬스토리지가 초기화된 상황을 대비해 조건부 렌더링 */}
+          {username && <>
+            <div className="font-bold">이름</div>
+            <div>{username}</div>
+          </>}
+          {phoneNumber && <>
+            <div className="font-bold">전화번호</div>
+            <div>{phoneNumber}</div>
+          </>}
           <div className="font-bold">신청한 수업</div>
           <div>{data.locationName} {data.lessonDates[0].startTime}-{data.lessonDates[0].endTime}</div>
           <div className="font-bold">수강료</div>
