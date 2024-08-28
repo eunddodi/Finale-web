@@ -59,8 +59,9 @@ function Login() {
         window.location.href = redirectTo || '/'
 
       } catch (e) {
-        alert('로그인에 실패했습니다. 홈 화면으로 이동합니다.')
+        alert('카카오 로그인 도중 오류가 발생했습니다. 해당 화면을 캡쳐해 피날레 카톡 채널로 문의해 주세요.')
         window.location.href = '/'
+        throw e
       }
     }
 
