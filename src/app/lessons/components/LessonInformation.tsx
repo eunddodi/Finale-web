@@ -31,7 +31,7 @@ export default function LessonInformation() {
 
     mutation.mutate({ lessonId, token }, {
       onSuccess: () => {
-        router.replace('/lessons/apply/confirmed')
+        router.replace(`/lessons/apply/confirmed?cost=${data.cost}`)
       },
       onError: (error) => {
         if (error instanceof BadRequestError) {

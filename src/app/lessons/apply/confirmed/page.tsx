@@ -1,17 +1,17 @@
 'use client'
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function PaymentConfirmationPage() {
   const router = useRouter();
   const [isCopied, setIsCopied] = useState(false);
+  const params = useSearchParams();
 
   const paymentInfo = {
     bankName: '카카오뱅크',
     accountNumber: '3333153079017',
     accountHolder: '우송원',
-    amount: '20만 원'
   };
 
   const copyAccountNumber = async () => {
@@ -53,8 +53,11 @@ export default function PaymentConfirmationPage() {
           <div>{paymentInfo.accountNumber}</div>
           <div className="font-bold">계좌주</div>
           <div>{paymentInfo.accountHolder}</div>
-          <div className="font-bold">수강료</div>
-          <div>{paymentInfo.amount}</div>
+          {params.get('cost') && <>
+            <div className="font-bold">수강료</div>
+            <div>{params.get('cost')}</div>
+          </>
+          }
         </div>
       </div>
 
