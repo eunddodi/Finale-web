@@ -8,7 +8,7 @@ export function formatDayOfWeek(dayOfWeek: number): string {
     throw new Error('올바른 요일 값이 아닙니다. 1부터 7 사이의 값을 입력해주세요.');
   }
 
-  return daysOfWeek[dayOfWeek];
+  return daysOfWeek[dayOfWeek - 1];
 }
 
 export function redirectToLogin() {
