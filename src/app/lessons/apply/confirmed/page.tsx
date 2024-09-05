@@ -1,32 +1,14 @@
 'use client'
+import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
 
-import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+const DynamicPaymentInfo = dynamic(() => import('./components/PaymentInfo'))
 
 export default function PaymentConfirmationPage() {
-  const router = useRouter();
-  const [isCopied, setIsCopied] = useState(false);
-  const params = useSearchParams();
-
-  const paymentInfo = {
-    bankName: '카카오뱅크',
-    accountNumber: '3333153079017',
-    accountHolder: '우송원',
-  };
-
-  const copyAccountNumber = async () => {
-    try {
-      await navigator.clipboard.writeText(paymentInfo.accountNumber);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy: ', err);
-    }
-  };
-
+  const router = useRouter()
   const goToMainPage = () => {
-    router.push('/'); // Adjust this route as needed
-  };
+    router.push('/')
+  }
 
   return (
     <div className="max-w-md mx-auto p-4">
@@ -44,30 +26,7 @@ export default function PaymentConfirmationPage() {
           입금 확인은 최대 24시간 걸릴 수 있습니다.
         </p>
       </div>
-
-      <div className="bg-white border-gray-light border-2 p-6 rounded-lg mb-8 text-sm">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="font-bold">은행명</div>
-          <div>{paymentInfo.bankName}</div>
-          <div className="font-bold">계좌 번호</div>
-          <div>{paymentInfo.accountNumber}</div>
-          <div className="font-bold">계좌주</div>
-          <div>{paymentInfo.accountHolder}</div>
-          {params.get('cost') && <>
-            <div className="font-bold">수강료</div>
-            <div>{params.get('cost')}</div>
-          </>
-          }
-        </div>
-      </div>
-
-      <button
-        onClick={copyAccountNumber}
-        className="w-full bg-main text-white font-semibold py-3 px-4 rounded-lg hover:bg-main-dark transition duration-300 mb-2"
-      >
-        {isCopied ? '복사됨!' : '계좌번호 복사하기'}
-      </button>
-
+      <DynamicPaymentInfo />
       <button
         onClick={goToMainPage}
         className="w-full bg-gray-light text-gray-700 font-semibold py-3 px-4 rounded-lg hover:bg-gray-300 transition duration-300"
@@ -75,5 +34,5 @@ export default function PaymentConfirmationPage() {
         메인화면으로 가기
       </button>
     </div>
-  );
+  )
 }
