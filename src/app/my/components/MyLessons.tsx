@@ -22,7 +22,7 @@ export default function MyLessons() {
   const filteredLessons = data.filter(lesson => lesson.month === currentMonth)
 
   return (
-    <div className="bg-gray-100 p-4 md:p-8 max-w-7xl mx-auto">
+    <div className="bg-gray-100 p-4 md:p-8 max-w-7xl mx-auto h-full">
       <Header currentMonth={currentMonth} />
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-6">
