@@ -4,6 +4,7 @@ import useRestLessonMutation from "@/hooks/mutations/useRestLessonMutation";
 import useToken from "@/hooks/useToken";
 import { formatDayOfWeek } from "@/util";
 import { ENROLLMENT_CLOSE_DATE } from '@/constants';
+import RestConfirmationPopup from '@/app/components/RestConfirmationPopup';
 
 interface LessonItemProps {
   lesson: IMyLesson;
@@ -12,29 +13,34 @@ interface LessonItemProps {
   onRestLesson: (lessonId: string) => void;
 }
 
-const LessonItem: React.FC<LessonItemProps> = ({ lesson, isCurrentLesson, restLessonAvailable, onRestLesson }) => (
-  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 border-b border-gray-200 last:border-b-0">
-    <div className="mb-2 sm:mb-0">
-      <p className="font-semibold">{lesson.month}</p>
-      <p className="text-sm text-gray-500">
-        {lesson.location} {formatDayOfWeek(lesson.days)} {lesson.startTime}-{lesson.endTime}
-      </p>
+const LessonItem: React.FC<LessonItemProps> = ({ lesson, isCurrentLesson, restLessonAvailable, onRestLesson }) => {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 border-b border-gray-200 last:border-b-0">
+      <div className="mb-2 sm:mb-0">
+        <p className="font-semibold">{lesson.month}</p>
+        <p className="text-sm text-gray-500">
+          {lesson.location} {formatDayOfWeek(lesson.days)} {lesson.startTime}-{lesson.endTime}
+        </p>
+      </div>
+      <div className="flex space-x-2">
+        {isCurrentLesson && lesson.deposit && (
+          <div className="bg-blue-400 text-white px-3 py-1 rounded-full text-xs">입금 완료</div>
+        )}
+        {isCurrentLesson && !lesson.deposit && (
+          <div className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs">입금 확인 중</div>
+        )}
+        {isCurrentLesson && restLessonAvailable && (
+          <button onClick={() => setOpen(true)} className="bg-red-400 text-white px-3 py-1 rounded-full text-xs">
+            휴식 신청
+          </button>
+        )}
+      </div>
+      <RestConfirmationPopup onClose={() => setOpen(false)} isOpen={open} onConfirm={() => onRestLesson(lesson.lessonStudentId)} />
     </div>
-    <div className="flex space-x-2">
-      {isCurrentLesson && lesson.deposit && (
-        <div className="bg-blue-400 text-white px-3 py-1 rounded-full text-xs">입금 완료</div>
-      )}
-      {isCurrentLesson && !lesson.deposit && (
-        <div className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs">입금 확인 중</div>
-      )}
-      {isCurrentLesson && restLessonAvailable && (
-        <button onClick={() => onRestLesson(lesson.lessonStudentId)} className="bg-red-400 text-white px-3 py-1 rounded-full text-xs">
-          휴식 신청
-        </button>
-      )}
-    </div>
-  </div>
-);
+  )
+};
 
 interface LessonListProps {
   lessonData: IMyLesson[];
